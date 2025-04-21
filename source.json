@@ -1,0 +1,18 @@
+{
+    "name":"Bakery Mass Editor",
+    "id":"chirp.reava.bakerymasseditor",
+    "author":{
+        "name":"Reava_",
+    	"email": "reava.vr@gmail.com",
+    	"url": "https://github.com/Reava/"
+    },
+    "description":"A simple editor tool to change values on multiple bakery light sources at once",
+    "infoLink":{
+        "url":"https://github.com/Reava/Bakery-Mass-Edit/blob/main/README.md",
+        "text":"How to Use (Readme)"
+    },
+    "url":"https://reava.github.io/Bakery-Mass-Edit/index.json",
+    "githubRepos":[
+        "Reava/Bakery-Mass-Edit"
+    ]
+}

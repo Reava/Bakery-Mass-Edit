@@ -1,0 +1,12 @@
+{
+  "name": "chirp.reava.bakerymasseditor",
+  "displayName": "Bakery Mass Editor",
+  "version": "1.3.2",
+  "unity": "2022.3",
+  "description": "A simple editor tool to change values on multiple bakery light sources at once",
+  "author": {
+    "name": "Reava_",
+    "email": "reava.vr@gmail.com",
+    "url": "https://github.com/Reava"
+  }
+}
