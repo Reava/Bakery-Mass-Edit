@@ -1,5 +1,5 @@
 {
-    "name": "chirp.reava.bakerymasseditor.Editor",
+    "name": "chirp.reava.editortoolbox.Editor",
     "rootNamespace": "",
     "references": [
         "BakeryEditorAssembly",
