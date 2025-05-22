@@ -1,9 +1,9 @@
 {
-  "name": "chirp.reava.bakerymasseditor",
-  "displayName": "Bakery Mass Editor",
+  "name": "chirp.reava.editortoolbox",
+  "displayName": "Reava's Editor Toolbox",
   "version": "1.3.2",
   "unity": "2022.3",
-  "description": "A simple editor tool to change values on multiple bakery light sources at once",
+  "description": "A collection of Simple Editor Tools I made to speed up niche processes I encountered making VRChat worlds. ",
   "author": {
     "name": "Reava_",
     "email": "reava.vr@gmail.com",

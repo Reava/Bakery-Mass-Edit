@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
 
 env:
-  releasePrefix: "Bakery ME"
-  packageName: "chirp.reava.bakerymasseditor"
-  packagePath: "Packages/chirp.reava.bakerymasseditor"
+  releasePrefix: "Reava's Editor Toolbox"
+  packageName: "chirp.reava.editortoolbox"
+  packagePath: "Packages/chirp.reava.editortoolbox"
 
 jobs:
   build:

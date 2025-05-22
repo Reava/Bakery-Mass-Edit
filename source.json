@@ -1,17 +1,17 @@
 {
-    "name":"Bakery Mass Editor",
-    "id":"chirp.reava.bakerymasseditor",
+    "name":"Reava's Editor Toolbox",
+    "id":"chirp.reava.editortoolbox",
     "author":{
         "name":"Reava_",
     	"email": "reava.vr@gmail.com",
     	"url": "https://github.com/Reava/"
     },
-    "description":"A simple editor tool to change values on multiple bakery light sources at once",
+    "description":"A collection of Simple Editor Tools I made to speed up niche processes I encountered making VRChat worlds. ",
     "infoLink":{
-        "url":"https://github.com/Reava/Bakery-Mass-Edit/blob/main/README.md",
+        "url":"https://github.com/Reava/VRC-Editor-Toolbox/blob/main/README.md",
         "text":"How to Use (Readme)"
     },
-    "url":"https://reava.github.io/Bakery-Mass-Edit/index.json",
+    "url":"https://reava.github.io/VRC-Editor-Toolbox/index.json",
     "githubRepos":[
         "Reava/Bakery-Mass-Edit"
     ]
