@@ -3,511 +3,514 @@ using UnityEngine;
 using UnityEditor;
 using System.Globalization;
 
-public class BakeryEditorAddons : Editor
+namespace UwUtils
 {
-    [MenuItem("GameObject/Bakery/Scale Intensity", false, 0)]
-    static void SetIntensity(MenuCommand MC)
+    public class BakeryEditorAddons : Editor
     {
-        // Prevent method from executing more than once due to multiple selected gameobjects in hierarchy (possible unity bug? :c)
-        if ((!MC.context?.Equals(Selection.activeObject)) ?? false) return;
-        BakeryQuickSetIntensity.Open();
-    }
-    [MenuItem("GameObject/Bakery/Scale Indirect Intensity", false, 0)]
-    static void SetIndirectIntensity(MenuCommand MC)
-    {
-        // Prevent method from executing more than once due to multiple selected gameobjects in hierarchy (possible unity bug? :c)
-        if ((!MC.context?.Equals(Selection.activeObject)) ?? false) return;
-        BakeryQuickSetIndirectIntensity.Open();
-    }
-    [MenuItem("GameObject/Bakery/Scale Range", false, 0)]
-    static void SetRange(MenuCommand MC)
-    {
-        // Prevent method from executing more than once due to multiple selected gameobjects in hierarchy (possible unity bug? :c)
-        if ((!MC.context?.Equals(Selection.activeObject)) ?? false) return;
-        BakeryQuickSetRange.Open();
-    }
-    [MenuItem("GameObject/Bakery/Scale Samples", false, 0)]
-    static void SetSamples(MenuCommand MC)
-    {
-        // Prevent method from executing more than once due to multiple selected gameobjects in hierarchy (possible unity bug? :c)
-        if ((!MC.context?.Equals(Selection.activeObject)) ?? false) return;
-        BakeryQuickSetSamples.Open();
-    }
-    [MenuItem("GameObject/Bakery/Scale Shadowspread", false, 0)]
-    static void SetShadowspread(MenuCommand MC)
-    {
-        // Prevent method from executing more than once due to multiple selected gameobjects in hierarchy (possible unity bug? :c)
-        if ((!MC.context?.Equals(Selection.activeObject)) ?? false) return;
-        BakeryQuickSetShadowspread.Open();
-    }
-
-}
-
-public class BakeryQuickSetIntensity : EditorWindow
-{
-    public static void Open()
-    {
-        BakeryQuickSetIntensity Instance = CreateInstance<BakeryQuickSetIntensity>();
-        Instance.ShowModal();
-    }
-    [SerializeField] public static string value;
-    public void OnGUI()
-    {
-        GUILayout.Space(10);
-        value = EditorGUILayout.TextField("Operation :",value);
-        GUILayout.Space(10);
-        if (GUILayout.Button("Set"))
+        [MenuItem("GameObject/Bakery/Scale Intensity", false, 0)]
+        static void SetIntensity(MenuCommand MC)
         {
-            value.Replace(" ", "");
-            char DetectedOperand = value[0];
-            value = value.Remove(0,1);
-            Debug.Log(value);
-            GameObject[] Parents = Selection.gameObjects;
-            switch (DetectedOperand) 
+            // Prevent method from executing more than once due to multiple selected gameobjects in hierarchy (possible unity bug? :c)
+            if ((!MC.context?.Equals(Selection.activeObject)) ?? false) return;
+            BakeryQuickSetIntensity.Open();
+        }
+        [MenuItem("GameObject/Bakery/Scale Indirect Intensity", false, 0)]
+        static void SetIndirectIntensity(MenuCommand MC)
+        {
+            // Prevent method from executing more than once due to multiple selected gameobjects in hierarchy (possible unity bug? :c)
+            if ((!MC.context?.Equals(Selection.activeObject)) ?? false) return;
+            BakeryQuickSetIndirectIntensity.Open();
+        }
+        [MenuItem("GameObject/Bakery/Scale Range", false, 0)]
+        static void SetRange(MenuCommand MC)
+        {
+            // Prevent method from executing more than once due to multiple selected gameobjects in hierarchy (possible unity bug? :c)
+            if ((!MC.context?.Equals(Selection.activeObject)) ?? false) return;
+            BakeryQuickSetRange.Open();
+        }
+        [MenuItem("GameObject/Bakery/Scale Samples", false, 0)]
+        static void SetSamples(MenuCommand MC)
+        {
+            // Prevent method from executing more than once due to multiple selected gameobjects in hierarchy (possible unity bug? :c)
+            if ((!MC.context?.Equals(Selection.activeObject)) ?? false) return;
+            BakeryQuickSetSamples.Open();
+        }
+        [MenuItem("GameObject/Bakery/Scale Shadowspread", false, 0)]
+        static void SetShadowspread(MenuCommand MC)
+        {
+            // Prevent method from executing more than once due to multiple selected gameobjects in hierarchy (possible unity bug? :c)
+            if ((!MC.context?.Equals(Selection.activeObject)) ?? false) return;
+            BakeryQuickSetShadowspread.Open();
+        }
+
+    }
+
+    public class BakeryQuickSetIntensity : EditorWindow
+    {
+        public static void Open()
+        {
+            BakeryQuickSetIntensity Instance = CreateInstance<BakeryQuickSetIntensity>();
+            Instance.ShowModal();
+        }
+        [SerializeField] public static string value;
+        public void OnGUI()
+        {
+            GUILayout.Space(10);
+            value = EditorGUILayout.TextField("Operation :",value);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Set"))
             {
-                case '+':
-                    {
-                        foreach (GameObject Parent in Parents)
+                value.Replace(" ", "");
+                char DetectedOperand = value[0];
+                value = value.Remove(0,1);
+                Debug.Log(value);
+                GameObject[] Parents = Selection.gameObjects;
+                switch (DetectedOperand) 
+                {
+                    case '+':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].intensity += float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].intensity += float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Addition");
                         }
-                        Debug.Log("Addition");
-                    }
-                    break;
-                case '-':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '-':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].intensity -= float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].intensity -= float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Subtraction");
                         }
-                        Debug.Log("Subtraction");
-                    }
-                    break;
-                case '*':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '*':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].intensity *= float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].intensity *= float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Multiply");
                         }
-                        Debug.Log("Multiply");
-                    }
-                    break;
-                case '/':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '/':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].intensity /= float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].intensity /= float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Division");
                         }
-                        Debug.Log("Division");
-                    }
-                    break;
-                case '=':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '=':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].intensity = float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].intensity = float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Division");
                         }
-                        Debug.Log("Division");
-                    }
-                    break;
+                        break;
+                }
+                value = null;
+                Close();
             }
-            value = null;
-            Close();
         }
     }
-}
 
-public class BakeryQuickSetIndirectIntensity : EditorWindow
-{
-    public static void Open()
+    public class BakeryQuickSetIndirectIntensity : EditorWindow
     {
-        BakeryQuickSetIndirectIntensity Instance = CreateInstance<BakeryQuickSetIndirectIntensity>();
-        Instance.ShowModal();
-    }
-    [SerializeField] public static string value;
-    public void OnGUI()
-    {
-        GUILayout.Space(10);
-        value = EditorGUILayout.TextField("Operation :", value);
-        GUILayout.Space(10);
-        if (GUILayout.Button("Set"))
+        public static void Open()
         {
-            value.Replace(" ", "");
-            char DetectedOperand = value[0];
-            value = value.Remove(0, 1);
-            Debug.Log(value);
-            GameObject[] Parents = Selection.gameObjects;
-            switch (DetectedOperand)
+            BakeryQuickSetIndirectIntensity Instance = CreateInstance<BakeryQuickSetIndirectIntensity>();
+            Instance.ShowModal();
+        }
+        [SerializeField] public static string value;
+        public void OnGUI()
+        {
+            GUILayout.Space(10);
+            value = EditorGUILayout.TextField("Operation :", value);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Set"))
             {
-                case '+':
-                    {
-                        foreach (GameObject Parent in Parents)
+                value.Replace(" ", "");
+                char DetectedOperand = value[0];
+                value = value.Remove(0, 1);
+                Debug.Log(value);
+                GameObject[] Parents = Selection.gameObjects;
+                switch (DetectedOperand)
+                {
+                    case '+':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].indirectIntensity += float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].indirectIntensity += float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Addition");
                         }
-                        Debug.Log("Addition");
-                    }
-                    break;
-                case '-':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '-':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].indirectIntensity -= float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].indirectIntensity -= float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Subtraction");
                         }
-                        Debug.Log("Subtraction");
-                    }
-                    break;
-                case '*':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '*':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].indirectIntensity *= float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].indirectIntensity *= float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Multiply");
                         }
-                        Debug.Log("Multiply");
-                    }
-                    break;
-                case '/':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '/':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].indirectIntensity /= float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].indirectIntensity /= float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Division");
                         }
-                        Debug.Log("Division");
-                    }
-                    break;
-                case '=':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '=':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].indirectIntensity = float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].indirectIntensity = float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Division");
                         }
-                        Debug.Log("Division");
-                    }
-                    break;
+                        break;
+                }
+                value = null;
+                Close();
             }
-            value = null;
-            Close();
         }
     }
-}
-public class BakeryQuickSetRange : EditorWindow
-{
-    public static void Open()
+    public class BakeryQuickSetRange : EditorWindow
     {
-        BakeryQuickSetRange Instance = CreateInstance<BakeryQuickSetRange>();
-        Instance.ShowModal();
-    }
-    [SerializeField] public static string value;
-    public void OnGUI()
-    {
-        GUILayout.Space(10);
-        value = EditorGUILayout.TextField("Operation :", value);
-        GUILayout.Space(10);
-        if (GUILayout.Button("Set"))
+        public static void Open()
         {
-            value.Replace(" ", "");
-            char DetectedOperand = value[0];
-            value = value.Remove(0, 1);
-            Debug.Log(value);
-            GameObject[] Parents = Selection.gameObjects;
-            switch (DetectedOperand)
+            BakeryQuickSetRange Instance = CreateInstance<BakeryQuickSetRange>();
+            Instance.ShowModal();
+        }
+        [SerializeField] public static string value;
+        public void OnGUI()
+        {
+            GUILayout.Space(10);
+            value = EditorGUILayout.TextField("Operation :", value);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Set"))
             {
-                case '+':
-                    {
-                        foreach (GameObject Parent in Parents)
+                value.Replace(" ", "");
+                char DetectedOperand = value[0];
+                value = value.Remove(0, 1);
+                Debug.Log(value);
+                GameObject[] Parents = Selection.gameObjects;
+                switch (DetectedOperand)
+                {
+                    case '+':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].cutoff += float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].cutoff += float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Addition");
                         }
-                        Debug.Log("Addition");
-                    }
-                    break;
-                case '-':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '-':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].cutoff -= float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].cutoff -= float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Subtraction");
                         }
-                        Debug.Log("Subtraction");
-                    }
-                    break;
-                case '*':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '*':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].cutoff *= float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].cutoff *= float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Multiply");
                         }
-                        Debug.Log("Multiply");
-                    }
-                    break;
-                case '/':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '/':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].cutoff /= float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].cutoff /= float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Division");
                         }
-                        Debug.Log("Division");
-                    }
-                    break;
-                case '=':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '=':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].cutoff = float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].cutoff = float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Division");
                         }
-                        Debug.Log("Division");
-                    }
-                    break;
+                        break;
+                }
+                value = null;
+                Close();
             }
-            value = null;
-            Close();
         }
     }
-}
 
-public class BakeryQuickSetSamples : EditorWindow
-{
-    public static void Open()
+    public class BakeryQuickSetSamples : EditorWindow
     {
-        BakeryQuickSetSamples Instance = CreateInstance<BakeryQuickSetSamples>();
-        Instance.ShowModal();
-    }
-    [SerializeField] public static string value;
-    public void OnGUI()
-    {
-        GUILayout.Space(10);
-        value = EditorGUILayout.TextField("Operation :", value);
-        GUILayout.Space(10);
-        if (GUILayout.Button("Set"))
+        public static void Open()
         {
-            value.Replace(" ", "");
-            char DetectedOperand = value[0];
-            value = value.Remove(0, 1);
-            Debug.Log(value);
-            GameObject[] Parents = Selection.gameObjects;
-            switch (DetectedOperand)
+            BakeryQuickSetSamples Instance = CreateInstance<BakeryQuickSetSamples>();
+            Instance.ShowModal();
+        }
+        [SerializeField] public static string value;
+        public void OnGUI()
+        {
+            GUILayout.Space(10);
+            value = EditorGUILayout.TextField("Operation :", value);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Set"))
             {
-                case '+':
-                    {
-                        foreach (GameObject Parent in Parents)
+                value.Replace(" ", "");
+                char DetectedOperand = value[0];
+                value = value.Remove(0, 1);
+                Debug.Log(value);
+                GameObject[] Parents = Selection.gameObjects;
+                switch (DetectedOperand)
+                {
+                    case '+':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].samples += int.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].samples += int.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Addition");
                         }
-                        Debug.Log("Addition");
-                    }
-                    break;
-                case '-':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '-':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].samples -= int.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].samples -= int.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Subtraction");
                         }
-                        Debug.Log("Subtraction");
-                    }
-                    break;
-                case '*':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '*':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].samples *= int.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].samples *= int.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Multiply");
                         }
-                        Debug.Log("Multiply");
-                    }
-                    break;
-                case '/':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '/':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].samples /= int.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].samples /= int.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Division");
                         }
-                        Debug.Log("Division");
-                    }
-                    break;
-                case '=':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '=':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].samples = int.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].samples = int.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Division");
                         }
-                        Debug.Log("Division");
-                    }
-                    break;
+                        break;
+                }
+                value = null;
+                Close();
             }
-            value = null;
-            Close();
         }
     }
-}
 
-public class BakeryQuickSetShadowspread : EditorWindow
-{
-    public static void Open()
+    public class BakeryQuickSetShadowspread : EditorWindow
     {
-        BakeryQuickSetShadowspread Instance = CreateInstance<BakeryQuickSetShadowspread>();
-        Instance.ShowModal();
-    }
-    [SerializeField] public static string value;
-    public void OnGUI()
-    {
-        GUILayout.Space(10);
-        value = EditorGUILayout.TextField("Operation :", value);
-        GUILayout.Space(10);
-        if (GUILayout.Button("Set"))
+        public static void Open()
         {
-            value.Replace(" ", "");
-            char DetectedOperand = value[0];
-            value = value.Remove(0, 1);
-            Debug.Log(value);
-            GameObject[] Parents = Selection.gameObjects;
-            switch (DetectedOperand)
+            BakeryQuickSetShadowspread Instance = CreateInstance<BakeryQuickSetShadowspread>();
+            Instance.ShowModal();
+        }
+        [SerializeField] public static string value;
+        public void OnGUI()
+        {
+            GUILayout.Space(10);
+            value = EditorGUILayout.TextField("Operation :", value);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Set"))
             {
-                case '+':
-                    {
-                        foreach (GameObject Parent in Parents)
+                value.Replace(" ", "");
+                char DetectedOperand = value[0];
+                value = value.Remove(0, 1);
+                Debug.Log(value);
+                GameObject[] Parents = Selection.gameObjects;
+                switch (DetectedOperand)
+                {
+                    case '+':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].shadowSpread += float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].shadowSpread += float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Addition");
                         }
-                        Debug.Log("Addition");
-                    }
-                    break;
-                case '-':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '-':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].shadowSpread -= float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].shadowSpread -= float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Subtraction");
                         }
-                        Debug.Log("Subtraction");
-                    }
-                    break;
-                case '*':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '*':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].shadowSpread *= float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].shadowSpread *= float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Multiply");
                         }
-                        Debug.Log("Multiply");
-                    }
-                    break;
-                case '/':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '/':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].shadowSpread /= float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].shadowSpread /= float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Division");
                         }
-                        Debug.Log("Division");
-                    }
-                    break;
-                case '=':
-                    {
-                        foreach (GameObject Parent in Parents)
+                        break;
+                    case '=':
                         {
-                            BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
-                            for (int i = 0; i < ChildernPointLights.Length; i++)
+                            foreach (GameObject Parent in Parents)
                             {
-                                ChildernPointLights[i].shadowSpread = float.Parse(value, CultureInfo.InvariantCulture);
+                                BakeryPointLight[] ChildernPointLights = Parent.GetComponentsInChildren<BakeryPointLight>();
+                                for (int i = 0; i < ChildernPointLights.Length; i++)
+                                {
+                                    ChildernPointLights[i].shadowSpread = float.Parse(value, CultureInfo.InvariantCulture);
+                                }
                             }
+                            Debug.Log("Division");
                         }
-                        Debug.Log("Division");
-                    }
-                    break;
+                        break;
+                }
+                value = null;
+                Close();
             }
-            value = null;
-            Close();
         }
     }
 }
