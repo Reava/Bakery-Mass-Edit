@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "BakeryEditorAssembly",
-        "BakeryRuntimeAssembly"
+        "BakeryRuntimeAssembly",
+        "UnityEditor.UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
