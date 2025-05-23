@@ -4,9 +4,12 @@
     "references": [
         "BakeryEditorAssembly",
         "BakeryRuntimeAssembly",
-        "UnityEditor.UI"
+        "UnityEditor.UI",
+        "UnityEngine.UI"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
